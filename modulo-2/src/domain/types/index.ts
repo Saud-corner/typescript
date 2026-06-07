@@ -30,7 +30,7 @@ export interface MatriculaFinalizada {
 // 3. La Unión Discriminada Estricta
 export type EstadoMatricula = MatriculaActiva | MatriculaSuspendida | MatriculaFinalizada;
 
-// 4. Función de evaluación con switch
+// 4. Función de evaluación con switch y Análisis Exhaustivo
 export function generarReporte(estado: EstadoMatricula): string {
     switch (estado.tipo) {
         case "ACTIVA":
@@ -39,5 +39,10 @@ export function generarReporte(estado: EstadoMatricula): string {
             return `ESTADO: Suspendida. Motivo del bloqueo: ${estado.motivo}`;
         case "FINALIZADA":
             return `ESTADO: Finalizada. Calificación media definitiva: ${estado.notaMedia}`;
+        default:
+            // Análisis exhaustivo: Si en el futuro añadimos un nuevo estado a la Unión
+            // y olvidamos ponerle su 'case', TypeScript lanzará un error aquí.
+            const comprobacionExhaustiva: never = estado;
+            return `Estado no manejado: ${comprobacionExhaustiva}`;
     }
 }
